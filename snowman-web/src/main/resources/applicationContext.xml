@@ -5,7 +5,8 @@
        default-autowire="byName">
 
     <!-- import -->
-     <import resource="/spring/applicationContext-base.xml" />
-     <import resource="/spring/applicationContext-db.xml" />
+    <import resource="/spring/applicationContext-base.xml"/>
+    <import resource="/spring/applicationContext-db.xml"/>
+    <import resource="/spring/applicationContext-cache.xml"/>
 
 </beans>
