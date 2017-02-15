@@ -11,6 +11,7 @@ import javax.servlet.ServletContext;
 public class WebContextListener extends ContextLoaderListener {
     @Override
     public WebApplicationContext initWebApplicationContext(ServletContext servletContext) {
+        //TODO 这里写下将要初始化的内容
         /*if (!SystemService.printKeyLoadMessage()){
 			return null;
 		}*/

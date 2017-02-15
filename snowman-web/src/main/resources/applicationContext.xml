@@ -6,5 +6,6 @@
 
     <!-- import -->
      <import resource="/spring/applicationContext-base.xml" />
+     <import resource="/spring/applicationContext-db.xml" />
 
 </beans>
