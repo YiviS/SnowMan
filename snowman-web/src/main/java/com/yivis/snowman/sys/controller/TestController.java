@@ -1,4 +1,4 @@
-package com.yivis.snowman.controller;
+package com.yivis.snowman.sys.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;

@@ -8,9 +8,9 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>123</title>
+    <title>Hello World</title>
 </head>
 <body>
-<div style="width: 100px;height: 100px;background-color: black"></div>
+<h1>Hello World</h1>
 </body>
 </html>

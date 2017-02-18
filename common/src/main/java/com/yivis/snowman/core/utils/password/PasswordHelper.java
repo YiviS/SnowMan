@@ -13,8 +13,11 @@ import org.apache.shiro.util.ByteSource;
 public class PasswordHelper {
     private RandomNumberGenerator randomNumberGenerator = new SecureRandomNumberGenerator();
     private String algorithmName = "md5";
-    private final int hashIterations = 2;
+    private final int hashIterations = 2;   //迭代次数
 
+    /**
+     * SimpleHash加密密码
+     */
     public void encryptPassword(SysUser user) {
         user.setSalt(randomNumberGenerator.nextBytes().toHex());
         String newPassword = new SimpleHash(
