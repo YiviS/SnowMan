@@ -1,4 +1,4 @@
-package com.yivis.core.listener;
+package com.yivis.snowman.core.listener;
 
 import org.springframework.web.context.ContextLoaderListener;
 import org.springframework.web.context.WebApplicationContext;

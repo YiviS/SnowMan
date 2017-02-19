@@ -1,4 +1,4 @@
-package com.yivis.core.listener;
+package com.yivis.snowman.core.listener;
 
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;

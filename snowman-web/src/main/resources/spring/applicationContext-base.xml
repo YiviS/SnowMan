@@ -20,7 +20,7 @@
     <util:properties id="sys" location="classpath:env.properties" local-override="true"/>
 
     <!-- 配置监听ApplicationListener 的具体实现类 -->
-    <bean id="appListener" class="com.yivis.core.listener.DefaultListener"></bean>
+    <bean id="appListener" class="com.yivis.snowman.core.listener.DefaultListener"></bean>
 
     <!--启动spring的aop自动代理 -->
     <aop:aspectj-autoproxy/>

@@ -8,11 +8,11 @@
 
     <!-- 装载 优先级最高 -->
     <listener>
-        <listener-class>com.yivis.core.listener.WebContextListener</listener-class>
+        <listener-class>com.yivis.snowman.core.listener.WebContextListener</listener-class>
     </listener>
     <!-- 默认listener -->
     <listener>
-        <listener-class>com.yivis.core.listener.DefaultListener</listener-class>
+        <listener-class>com.yivis.snowman.core.listener.DefaultListener</listener-class>
     </listener>
     <listener>
         <listener-class>org.springframework.web.context.request.RequestContextListener</listener-class>
