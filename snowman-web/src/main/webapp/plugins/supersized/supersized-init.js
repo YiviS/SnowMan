@@ -20,9 +20,9 @@ jQuery(function($){
         // Components
         slide_links        : 'blank',    // 个别环节为每张幻灯片（选项：假的，'民'，'名'，'空'）
         slides             : [    // //所切换的图片集合，包括图片地址image，图片标题title，图片链接url。
-                                 {image : '../static/images/backgrounds/1.jpg'},
-                                 {image : '../static/images/backgrounds/2.jpg'},
-                                 {image : '../static/images/backgrounds/3.jpg'}
+                                 {image : SNOWMAN_PATH+'/static/images/backgrounds/1.jpg'},
+                                 {image : SNOWMAN_PATH+'/static/images/backgrounds/2.jpg'},
+                                 {image : SNOWMAN_PATH+'/static/images/backgrounds/3.jpg'}
                              ]
 
     });
