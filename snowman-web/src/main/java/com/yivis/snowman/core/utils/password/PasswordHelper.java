@@ -13,7 +13,7 @@ import org.apache.shiro.util.ByteSource;
 public class PasswordHelper {
     private RandomNumberGenerator randomNumberGenerator = new SecureRandomNumberGenerator();
     private String algorithmName = "md5";
-    private final int hashIterations = 2;   //迭代次数
+    private final int hashIterations = 1024;   //迭代次数
 
     /**
      * SimpleHash加密密码
