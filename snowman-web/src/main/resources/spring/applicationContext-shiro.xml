@@ -8,7 +8,7 @@
     <!-- 定义Shiro安全管理配置 Shiro的核心 -->
     <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
         <property name="realms" ref="shiroDbRealm"/>
-        <property name="cacheManager" ref="shiroCacheManager" />
+        <property name="cacheManager" ref="shiroCacheManager"/>
     </bean>
 
     <!-- 項目自定义的Realm -->
@@ -18,7 +18,7 @@
     <bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
         <property name="filters">
             <map>
-                <entry key="authc" value-ref="extendFormAuthenticationFilter" />
+                <entry key="authc" value-ref="extendFormAuthenticationFilter"/>
             </map>
         </property>
         <!-- Shiro的核心安全接口，这个属性是必须的 -->
@@ -26,15 +26,14 @@
         <!-- 要求登录时的链接(登录页面地址)，非必须的属性，默认会自动寻找Web工程根目录下的"/login.jsp"页面 -->
         <property name="loginUrl" value="/login"/>
         <!-- 登录成功后要跳转的连接 -->
-        <property name="successUrl" value="/index"/>
+        <property name="successUrl" value="/login"/>
         <!-- 用户访问未对其授权的资源时，所显示的连接 -->
-        <property name="unauthorizedUrl" value="/"/>
+        <property name="unauthorizedUrl" value="/login"/>
         <!-- 拦截的url -->
         <property name="filterChainDefinitions">
             <value>
                 /login = authc
                 /logout = logout
-                / = user
             </value>
         </property>
     </bean>
@@ -44,7 +43,7 @@
 
     <!-- 自定义系统缓存管理器 -->
     <bean id="shiroCacheManager" class="org.apache.shiro.cache.ehcache.EhCacheManager">
-        <property name="cacheManagerConfigFile" value="ehcache/ehcache_local.xml"/>
+        <property name="cacheManagerConfigFile" value="classpath:ehcache/ehcache-shiro.xml"/>
     </bean>
 
     <!-- 保证实现了Shiro内部lifecycle函数的bean执行 -->
