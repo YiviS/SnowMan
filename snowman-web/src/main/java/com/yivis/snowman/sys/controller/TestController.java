@@ -1,6 +1,5 @@
 package com.yivis.snowman.sys.controller;
 
-import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -11,8 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/")
 public class TestController {
 
-    @RequestMapping("/")
-    @RequiresRoles("")
+    @RequestMapping("/login")
     public String test() {
         return "index";
     }
