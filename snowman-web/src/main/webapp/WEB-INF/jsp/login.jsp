@@ -13,13 +13,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="">
+
+
 </head>
 <body>
 <div class="page-container">
     <h1>Login</h1>
-    <form action="" method="post">
+    <form action="${snowman}/login" method="post">
         <input type="text" name="username" class="username" placeholder="Username">
         <input type="password" name="password" class="password" placeholder="Password">
+        <input type="checkbox" name="rememberMe" value="" style="display: none">
         <button type="submit">Sign me in</button>
         <div class="error"><span>+</span></div>
     </form>
@@ -30,7 +33,7 @@
             <a class="twitter" href=""></a>
         </p>
     </div>
-    <div align="center">Copyright © 2017 <a href="http://www.cssmoban.com/" target="_blank" style="text-decoration: none" title="Yivis">github.com/Yivis</a></div>
+    <div align="center">Copyright © 2017 <a href="https://github.com/Yivis" target="_blank" style="text-decoration: none" title="Yivis">github.com/Yivis</a></div>
 </div>
 
 <!-- Javascript -->
