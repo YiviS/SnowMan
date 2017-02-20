@@ -19,7 +19,10 @@ public class SysService {
      */
     public SysUser getUserByLoginName(String username){
         //TODO 根据登录名获取用户
-        return new SysUser();
+        SysUser sysUser = new SysUser();
+        sysUser.setUsername("super");
+        sysUser.setPassword("a72982d91c5b9cf054826734494b54024e59e851");
+        return sysUser;
     }
 
 }

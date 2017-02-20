@@ -12,6 +12,16 @@ public class TestController {
 
     @RequestMapping("/login")
     public String test() {
+        return "login";
+    }
+
+    @RequestMapping("/index")
+    public String test1() {
         return "index";
     }
+    @RequestMapping("/")
+    public String test3(){
+        return "index";
+    }
+
 }

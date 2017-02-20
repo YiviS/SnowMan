@@ -26,7 +26,7 @@
         <!-- 要求登录时的链接(登录页面地址)，非必须的属性，默认会自动寻找Web工程根目录下的"/login.jsp"页面 -->
         <property name="loginUrl" value="/login"/>
         <!-- 登录成功后要跳转的连接 -->
-        <property name="successUrl" value="/login"/>
+        <property name="successUrl" value="/index"/>
         <!-- 用户访问未对其授权的资源时，所显示的连接 -->
         <property name="unauthorizedUrl" value="/login"/>
         <!-- 拦截的url -->
@@ -34,6 +34,9 @@
             <value>
                 /login = authc
                 /logout = logout
+                /static/** = anon
+                /plugins/** = anon
+                /** = user
             </value>
         </property>
     </bean>

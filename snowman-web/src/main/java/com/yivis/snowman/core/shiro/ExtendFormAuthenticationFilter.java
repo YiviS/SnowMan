@@ -43,7 +43,7 @@ public class ExtendFormAuthenticationFilter extends FormAuthenticationFilter {
         boolean rememberMe = isRememberMe(request);
         String host = request.getRemoteHost();
         String captcha = getCaptcha(request);
-        return new ExtendUsernamePasswordToken(username, password.toCharArray(), rememberMe, host, captcha);
+        return new ExtendUsernamePasswordToken(username, password.toCharArray(), rememberMe, host);
     }
 
     /**
