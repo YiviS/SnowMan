@@ -16,7 +16,7 @@ body {
 }
 
 .page-container {
-    margin: 120px auto 0 auto;
+    margin: 40px auto 0 auto;
 }
 
 h1 {
@@ -32,7 +32,7 @@ form {
     text-align: center;
 }
 
-input {
+.contain input {
     width: 270px;
     height: 42px;
     margin-top: 25px;
@@ -57,11 +57,11 @@ input {
     -ms-transition: all .2s;
 }
 
-input:-moz-placeholder { color: #fff; }
-input:-ms-input-placeholder { color: #fff; }
-input::-webkit-input-placeholder { color: #fff; }
+.contain input:-moz-placeholder { color: #fff; }
+.contain input:-ms-input-placeholder { color: #fff; }
+.contain input::-webkit-input-placeholder { color: #fff; }
 
-input:focus {
+.contain input:focus {
     outline: none;
     -moz-box-shadow:
         0 2px 3px 0 rgba(0,0,0,.1) inset,
@@ -74,11 +74,25 @@ input:focus {
         0 2px 7px 0 rgba(0,0,0,.2);
 }
 
+#embed-captcha {
+    width: 300px;
+    margin: 20px auto;
+}
+.show {
+    display: block;
+}
+.hide {
+    display: none;
+}
+#notice {
+    color: red;
+}
+
 button {
     cursor: pointer;
     width: 300px;
     height: 44px;
-    margin-top: 25px;
+    margin-top: 10px;
     padding: 0;
     background: #ef4300;
     -moz-border-radius: 6px;
@@ -131,6 +145,31 @@ button:active {
     border: 0px solid #ef4300;
 }
 
+.remember-me{
+    margin-top: 10px;
+    display: block;
+    text-align: left;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+.remember-me input{
+    vertical-align: middle;
+    cursor: pointer;
+    width: 16px;
+    height: 16px;
+}
+.remember-me label {
+    font-size: 16px;
+    vertical-align: middle;
+    cursor: pointer;
+}
+.remember-me a {
+    float: right;
+    color: #333;
+    text-decoration: none;
+    padding-top: 1px;
+}
 .error {
     display: none;
     position: absolute;
@@ -161,7 +200,7 @@ button:active {
 
 .connect {
     width: 305px;
-    margin: 35px auto 0 auto;
+    margin: 20px auto 10px auto;
     font-size: 18px;
     font-weight: 700;
     text-shadow: 0 1px 3px rgba(0,0,0,.2);
@@ -171,15 +210,17 @@ button:active {
     display: inline-block;
     width: 32px;
     height: 35px;
-    margin-top: 15px;
+    margin-top: 10px;
     -o-transition: all .2s;
     -moz-transition: all .2s;
     -webkit-transition: all .2s;
     -ms-transition: all .2s;
 }
 
-.connect a.facebook { background: url(../../images/icons/facebook.png) center center no-repeat; }
-.connect a.twitter { background: url(../../images/icons/twitter.png) center center no-repeat; }
+.connect a.qq { background: url(../../images/icons/QQ.png) center center no-repeat; }
+.connect a.wechat { background: url(../../images/icons/wechat.png) center center no-repeat; }
+.connect a.sina { background: url(../../images/icons/sina.png) center center no-repeat; }
+.connect a.register { background: url(../../images/icons/register.png) center center no-repeat; }
 
 .connect a:hover { background-position: center bottom; }
 
