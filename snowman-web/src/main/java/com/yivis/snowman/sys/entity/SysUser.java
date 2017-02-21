@@ -7,17 +7,17 @@ import java.io.Serializable;
  */
 public class SysUser implements Serializable {
 
-    private Long id;
+    private Integer id;
     private String username;
     private String password;
     private String salt;
     private Boolean locked = Boolean.FALSE;
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
