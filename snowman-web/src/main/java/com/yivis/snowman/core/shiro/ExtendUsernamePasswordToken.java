@@ -23,4 +23,11 @@ public class ExtendUsernamePasswordToken extends UsernamePasswordToken {
         this.captcha = captcha;
     }
 
+    public boolean isCaptcha() {
+        return captcha;
+    }
+
+    public void setCaptcha(boolean captcha) {
+        this.captcha = captcha;
+    }
 }

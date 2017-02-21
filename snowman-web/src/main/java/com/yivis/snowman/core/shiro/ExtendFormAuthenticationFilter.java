@@ -51,10 +51,8 @@ public class ExtendFormAuthenticationFilter extends FormAuthenticationFilter {
         String host = request.getRemoteHost();
         //验证验证码
         boolean captcha = issueCaptcha(request, response);
-        System.out.println("---------captcha:" + captcha);
         if (!captcha) {
             request.setAttribute("message", "验证码错误");
-            throw new CaptchaException("验证码错误");
         }
         return new ExtendUsernamePasswordToken(username, password.toCharArray(), rememberMe, host, captcha);
     }
@@ -108,9 +106,10 @@ public class ExtendFormAuthenticationFilter extends FormAuthenticationFilter {
             String message = "";
             if (IncorrectCredentialsException.class.getName().equals(className)
                     || UnknownAccountException.class.getName().equals(className)) {
-                message = "用户或密码错误, 请重试.";
-            } else if (e.getMessage() != null && StringUtils.startsWith(e.getMessage(), "msg:")) {
-                message = StringUtils.replace(e.getMessage(), "msg:", "");
+                message = "用户或密码错误, 请重试！";
+            } else if (StringUtils.isNotEmpty(e.getMessage())) {
+//                message = StringUtils.replace(e.getMessage(), "msg:", "");
+                message = e.getMessage();
             } else {
                 message = "系统出现点问题，请稍后再试！";
                 e.printStackTrace(); // 输出到控制台
@@ -125,7 +124,9 @@ public class ExtendFormAuthenticationFilter extends FormAuthenticationFilter {
             response.setContentType("text/plain;charset=utf-8");
             PrintWriter out = response.getWriter();
             String message = e.getClass().getSimpleName();
-            if ("IncorrectCredentialsException".equals(message)) {
+            if ("CaptchaException".equals(message)) {
+                out.println("{\"success\":false,\"message\":\"验证码错误\"}");
+            } else if ("IncorrectCredentialsException".equals(message)) {
                 out.println("{\"success\":false,\"message\":\"密码错误\"}");
             } else if ("UnknownAccountException".equals(message)) {
                 out.println("{\"success\":false,\"message\":\"账号不存在\"}");

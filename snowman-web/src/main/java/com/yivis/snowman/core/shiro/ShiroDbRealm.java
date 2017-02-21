@@ -39,7 +39,11 @@ public class ShiroDbRealm extends AuthorizingRealm {
 
         String username = token.getUsername();
         if (username == null) {
-            throw new AccountException("Null usernames are not allowed by this realm.");
+            throw new AccountException("用户或密码错误, 请重试！");
+        }
+        // 验证验证码
+        if (!token.isCaptcha()) {
+            throw new CaptchaException("验证码错误, 请重试！");
         }
         // 校验用户名密码
         SysUser user = sysService.getUserByLoginName(username);
