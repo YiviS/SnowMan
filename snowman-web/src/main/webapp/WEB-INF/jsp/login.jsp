@@ -18,6 +18,9 @@
     <link rel="stylesheet" href="${snowman}/static/css/login/reset.css">
     <link rel="stylesheet" href="${snowman}/static/css/login/supersized.css">
     <link rel="stylesheet" href="${snowman}/static/css/login/style.css">
+    <style type="text/css">
+
+    </style>
 </head>
 <body>
 <div class="page-container">
@@ -27,14 +30,20 @@
             <input type="text" name="username" class="username" placeholder="Username">
             <input type="password" name="password" class="password" placeholder="Password">
         </div>
-
-        <div id="embed-captcha"></div>
-        <p id="wait" class="show">正在加载验证码......</p>
-        <p id="notice" class="hide">请先拖动验证码到相应位置</p>
+        <%-- 滑动验证 --%>
+        <div class="box">
+            <span id="wait" class="show">正在加载验证码......</span>
+            <div class="box-captcha" id="float-captcha">
+            </div>
+        </div>
+        <%-- 错误提示 --%>
+        <div id="messageBox" class="alert-error ${empty message ? 'hide' : ''}">
+            <label class="loginError">${message}</label>
+        </div>
 
         <button type="submit">Sign me in</button>
         <div class="remember-me">
-            <input type="checkbox" id="rememberMe" name="rememberMe" value="" >
+            <input type="checkbox" id="rememberMe" name="rememberMe" value="">
             <label for="rememberMe">记住我</label>
             <a href="">忘记密码？</a>
         </div>
@@ -72,7 +81,7 @@
             }
         });
         // 将验证码加到id为captcha的元素里，同时会有三个input的值：geetest_challenge, geetest_validate, geetest_seccode
-        captchaObj.appendTo("#embed-captcha");
+        captchaObj.appendTo("#float-captcha"); // 包括：float-captcha，embed-captcha，popup-captcha
         captchaObj.onReady(function () {
             $("#wait")[0].className = "hide";
         });
@@ -90,7 +99,7 @@
             initGeetest({
                 gt: data.gt,
                 challenge: data.challenge,
-                product: "embed", // 产品形式，包括：float，embed，popup。注意只对PC版验证码有效
+                product: "float", // 产品形式，包括：float，embed，popup。注意只对PC版验证码有效
                 offline: !data.success // 表示用户后台检测极验服务器是否宕机，一般不需要关注
                 // 更多配置参数请参见：http://www.geetest.com/install/sections/idx-client-sdk.html#config
             }, handlerEmbed);
