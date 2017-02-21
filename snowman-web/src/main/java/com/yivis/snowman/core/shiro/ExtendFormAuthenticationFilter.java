@@ -1,16 +1,22 @@
 package com.yivis.snowman.core.shiro;
 
+import com.yivis.snowman.core.utils.geetestCaptcha.GetGeetestCaptcha;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationToken;
+import org.apache.shiro.authc.IncorrectCredentialsException;
+import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.subject.Subject;
 import org.apache.shiro.web.filter.authc.FormAuthenticationFilter;
 import org.apache.shiro.web.util.WebUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 
@@ -23,7 +29,8 @@ public class ExtendFormAuthenticationFilter extends FormAuthenticationFilter {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
-    protected static final String DEFAULT_CAPTCHA_PARAM = "captcha";
+    @Autowired
+    private GetGeetestCaptcha getGeetestCaptcha;
 
     /**
      * 所有请求都会经过的方法。
@@ -42,8 +49,14 @@ public class ExtendFormAuthenticationFilter extends FormAuthenticationFilter {
         String password = getPassword(request) == null ? "" : getPassword(request);
         boolean rememberMe = isRememberMe(request);
         String host = request.getRemoteHost();
-        String captcha = getCaptcha(request);
-        return new ExtendUsernamePasswordToken(username, password.toCharArray(), rememberMe, host);
+        //验证验证码
+        boolean captcha = issueCaptcha(request, response);
+        System.out.println("---------captcha:" + captcha);
+        if (!captcha) {
+            request.setAttribute("message", "验证码错误");
+            throw new CaptchaException("验证码错误");
+        }
+        return new ExtendUsernamePasswordToken(username, password.toCharArray(), rememberMe, host, captcha);
     }
 
     /**
@@ -92,9 +105,18 @@ public class ExtendFormAuthenticationFilter extends FormAuthenticationFilter {
         // ------------ 非ajax请求 ------------
         if (!isAjax(request)) {
             String className = e.getClass().getName();
-            String message = getFailureKeyAttribute();
-            request.setAttribute(message, className);
-            setFailureAttribute(request, e);
+            String message = "";
+            if (IncorrectCredentialsException.class.getName().equals(className)
+                    || UnknownAccountException.class.getName().equals(className)) {
+                message = "用户或密码错误, 请重试.";
+            } else if (e.getMessage() != null && StringUtils.startsWith(e.getMessage(), "msg:")) {
+                message = StringUtils.replace(e.getMessage(), "msg:", "");
+            } else {
+                message = "系统出现点问题，请稍后再试！";
+                e.printStackTrace(); // 输出到控制台
+            }
+            request.setAttribute(getFailureKeyAttribute(), className);
+            request.setAttribute("message", message);
             return true;
         }
         // ------------ ajax请求 ------------
@@ -121,10 +143,10 @@ public class ExtendFormAuthenticationFilter extends FormAuthenticationFilter {
     }
 
     /**
-     * 获取验证码
+     * 验证验证码是否正确
      */
-    protected String getCaptcha(ServletRequest request) {
-        return WebUtils.getCleanParam(request, DEFAULT_CAPTCHA_PARAM);
+    protected boolean issueCaptcha(ServletRequest request, ServletResponse response) {
+        return getGeetestCaptcha.isGeestesCaptcha((HttpServletRequest) request, (HttpServletResponse) response);
     }
 
     /**
