@@ -36,6 +36,7 @@
                 /logout = logout
                 /static/** = anon
                 /plugins/** = anon
+                /pc/** = anon
                 /** = user
             </value>
         </property>
