@@ -32,13 +32,10 @@ public class GetGeetestCaptcha {
 
         if (gt_server_status_code == 1) {
             //gt-server正常，向gt-server进行二次验证
-
             gtResult = gtSdk.enhencedValidateRequest(challenge, validate, seccode, userid);
-            System.out.println(gtResult);
         } else {
             // gt-server非正常情况下，进行failback模式验证
             gtResult = gtSdk.failbackValidateRequest(challenge, validate, seccode);
-            System.out.println(gtResult);
         }
         if (gtResult == 1) {
             // 验证成功

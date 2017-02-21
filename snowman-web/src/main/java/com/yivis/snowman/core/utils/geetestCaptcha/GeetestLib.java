@@ -1,30 +1,25 @@
 package com.yivis.snowman.core.utils.geetestCaptcha;
 
-import java.awt.print.Printable;
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.net.URL;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.logging.Logger;
-
-import javax.print.DocFlavor.STRING;
-import javax.servlet.http.HttpServletRequest;
 
 /**
  * Created by XuGuang on 2017/2/21.
  */
 public class GeetestLib {
+
+    private static Logger logger = LoggerFactory.getLogger(GeetestLib.class);
+
     protected final String verName = "3.3.0";// SDK版本编号
     protected final String sdkLang = "java";// SD的语言类型
 
@@ -118,7 +113,6 @@ public class GeetestLib {
 
     /**
      * 预处理成功后的标准串
-     *
      */
     private String getSuccessPreProcessRes(String challenge) {
 
@@ -151,12 +145,11 @@ public class GeetestLib {
      * @param userid
      * @return 1表示初始化成功，0表示初始化失败
      */
-    public int preProcess(String userid){
+    public int preProcess(String userid) {
 
         this.userId = userid;
         return this.preProcess();
     }
-
 
 
     /**
@@ -166,8 +159,8 @@ public class GeetestLib {
      */
     private int registerChallenge() {
         try {
-            String GET_URL = apiUrl + registerUrl+"?gt=" + this.captchaId;
-            if (this.userId != ""){
+            String GET_URL = apiUrl + registerUrl + "?gt=" + this.captchaId;
+            if (this.userId != "") {
                 GET_URL = GET_URL + "&user_id=" + this.userId;
                 this.userId = "";
             }
@@ -214,7 +207,7 @@ public class GeetestLib {
         InputStream inStream = null;
         byte[] buf = new byte[1024];
         inStream = connection.getInputStream();
-        for (int n; (n = inStream.read(buf)) != -1;) {
+        for (int n; (n = inStream.read(buf)) != -1; ) {
             sBuffer.append(new String(buf, 0, n, "UTF-8"));
         }
         inStream.close();
@@ -222,8 +215,6 @@ public class GeetestLib {
 
         return sBuffer.toString();
     }
-
-
 
 
     /**
@@ -274,7 +265,7 @@ public class GeetestLib {
      * @param challenge
      * @param validate
      * @param seccode
-     * @return 验证结果,1表示验证成功0表示验证失败
+     * @return 验证结果, 1表示验证成功0表示验证失败
      */
     public int enhencedValidateRequest(String challenge, String validate, String seccode) {
 
@@ -290,7 +281,7 @@ public class GeetestLib {
                 (this.sdkLang + "_" + this.verName));
         String response = "";
 
-        if (this.userId != ""){
+        if (this.userId != "") {
             query = query + "&user_id=" + this.userId;
             this.userId = "";
         }
@@ -327,7 +318,7 @@ public class GeetestLib {
      * @param validate
      * @param seccode
      * @param userid
-     * @return 验证结果,1表示验证成功0表示验证失败
+     * @return 验证结果, 1表示验证成功0表示验证失败
      */
     public int enhencedValidateRequest(String challenge, String validate, String seccode, String userid) {
 
@@ -341,7 +332,7 @@ public class GeetestLib {
      * @param challenge
      * @param validate
      * @param seccode
-     * @return 验证结果,1表示验证成功0表示验证失败
+     * @return 验证结果, 1表示验证成功0表示验证失败
      */
     public int failbackValidateRequest(String challenge, String validate, String seccode) {
 
@@ -368,15 +359,13 @@ public class GeetestLib {
         gtlog(String.format("decode----ans:%s,bg_idx:%s,grp_idx:%s", decodeAns,
                 decodeFullBgImgIndex, decodeImgGrpIndex));
 
-        int validateResult = validateFailImage(decodeAns,decodeFullBgImgIndex, decodeImgGrpIndex);
+        int validateResult = validateFailImage(decodeAns, decodeFullBgImgIndex, decodeImgGrpIndex);
 
         return validateResult;
     }
 
 
-
     /**
-     *
      * @param ans
      * @param full_bg_index
      * @param img_grp_index
@@ -419,8 +408,6 @@ public class GeetestLib {
     }
 
 
-
-
     /**
      * 解码随机参数
      *
@@ -433,7 +420,7 @@ public class GeetestLib {
             return 0;
         }
 
-        int[] shuzi = new int[] { 1, 2, 5, 10, 50 };
+        int[] shuzi = new int[]{1, 2, 5, 10, 50};
         String chongfu = "";
         HashMap<String, Integer> key = new HashMap<String, Integer>();
         int count = 0;
@@ -490,7 +477,6 @@ public class GeetestLib {
     }
 
 
-
     /**
      * 输出debug信息，需要开启debugCode
      *
@@ -498,7 +484,9 @@ public class GeetestLib {
      */
     public void gtlog(String message) {
         if (debugCode) {
-            System.out.println("gtlog: " + message);
+//            System.out.println("gtlog: " + message);
+            logger.info("----gtlog: {}", message);
+
         }
     }
 
@@ -552,9 +540,9 @@ public class GeetestLib {
     /**
      * md5 加密
      *
-     * @time 2014年7月10日 下午3:30:01
      * @param plainText
      * @return
+     * @time 2014年7月10日 下午3:30:01
      */
     private String md5Encode(String plainText) {
         String re_md5 = new String();
