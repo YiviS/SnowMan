@@ -8,6 +8,7 @@
     <!-- 定义Shiro安全管理配置 Shiro的核心 -->
     <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
         <property name="realms" ref="shiroDbRealm"/>
+        <property name="sessionManager" ref="sessionManager" />
         <property name="cacheManager" ref="shiroCacheManager"/>
     </bean>
 
@@ -40,6 +41,30 @@
                 /** = user
             </value>
         </property>
+    </bean>
+
+    <!-- 自定义会话管理配置 -->
+    <bean id="sessionManager" class="com.yivis.snowman.core.shiro.session.WebSessionManager">
+        <property name="sessionDAO" ref="MySessionDao"/>
+        <!-- 会话超时时间，单位：毫秒  -->
+        <property name="globalSessionTimeout" value="1800000"/>
+        <!-- 定时清理失效会话, 清理用户直接关闭浏览器造成的孤立会话   -->
+        <property name="sessionValidationInterval" value="120000"/>
+        <!--  		<property name="sessionValidationSchedulerEnabled" value="false"/> -->
+        <property name="sessionValidationSchedulerEnabled" value="true"/>
+        <property name="sessionIdCookie" ref="sessionIdCookie"/>
+        <property name="sessionIdCookieEnabled" value="true"/>
+    </bean>
+    <!-- 会话Cookie模板 指定本系统SESSIONID, 默认为: JSESSIONID 问题: 与SERVLET容器名冲突, 如JETTY, TOMCAT 等默认JSESSIONID,
+    当跳出SHIRO SERVLET时如ERROR-PAGE容器会为JSESSIONID重新分配值导致登录会话丢失! -->
+    <bean id="sessionIdCookie" class="org.apache.shiro.web.servlet.SimpleCookie">
+        <constructor-arg name="name" value="__sid"/>
+    </bean>
+    <!-- 自定义Session存储容器 -->
+    <bean id="JavaUuidSessionIdGenerator" class="org.apache.shiro.session.mgt.eis.JavaUuidSessionIdGenerator"/>
+    <bean id="MySessionDao" class="com.yivis.snowman.core.shiro.session.MySessionDao">
+        <property name="sessionIdGenerator" ref="JavaUuidSessionIdGenerator" />
+        <property name="cacheManager" ref="shiroCacheManager" />
     </bean>
 
     <!-- form Filter -->
