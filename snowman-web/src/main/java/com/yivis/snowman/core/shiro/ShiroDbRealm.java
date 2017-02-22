@@ -80,4 +80,6 @@ public class ShiroDbRealm extends AuthorizingRealm {
         setCredentialsMatcher(matcher);
     }
 
+
+
 }
