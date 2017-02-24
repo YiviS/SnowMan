@@ -51,6 +51,7 @@
         <!-- 定时清理失效会话, 清理用户直接关闭浏览器造成的孤立会话   -->
         <property name="sessionValidationInterval" value="120000"/>
         <!--  		<property name="sessionValidationSchedulerEnabled" value="false"/> -->
+        <!-- 是否开启会话验证器，默认是开启的 -->
         <property name="sessionValidationSchedulerEnabled" value="true"/>
         <property name="sessionIdCookie" ref="sessionIdCookie"/>
         <property name="sessionIdCookieEnabled" value="true"/>
@@ -59,6 +60,10 @@
     当跳出SHIRO SERVLET时如ERROR-PAGE容器会为JSESSIONID重新分配值导致登录会话丢失! -->
     <bean id="sessionIdCookie" class="org.apache.shiro.web.servlet.SimpleCookie">
         <constructor-arg name="name" value="__sid"/>
+        <!-- 保证该系统不会受到跨域的脚本操作供给 -->
+        <property name="httpOnly" value="true"/>
+        <!-- 定义Cookie的过期时间，单位为秒，如果设置为-1表示浏览器关闭，则Cookie消失 -->
+        <property name="maxAge" value="1800"/>
     </bean>
     <!-- 自定义Session存储容器 -->
     <bean id="JavaUuidSessionIdGenerator" class="org.apache.shiro.session.mgt.eis.JavaUuidSessionIdGenerator"/>

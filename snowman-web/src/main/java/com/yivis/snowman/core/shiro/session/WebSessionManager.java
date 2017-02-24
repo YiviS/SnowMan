@@ -1,7 +1,9 @@
 package com.yivis.snowman.core.shiro.session;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.shiro.session.mgt.SessionKey;
+import org.apache.shiro.session.Session;
+import org.apache.shiro.session.mgt.SessionContext;
+import org.apache.shiro.session.mgt.SimpleSession;
 import org.apache.shiro.web.servlet.Cookie;
 import org.apache.shiro.web.servlet.ShiroHttpServletRequest;
 import org.apache.shiro.web.servlet.SimpleCookie;
@@ -48,6 +50,24 @@ public class WebSessionManager extends DefaultWebSessionManager {
             return sid;
         } else {
             return super.getSessionId(request, response);
+        }
+    }
+
+    @Override
+    protected Session newSessionInstance(SessionContext context) {
+        Session session = super.newSessionInstance(context);
+        session.setTimeout(getGlobalSessionTimeout());
+        return session;
+    }
+
+    @Override
+    public Session start(SessionContext context) {
+        try{
+            return super.start(context);
+        }catch (NullPointerException e) {
+            SimpleSession session = new SimpleSession();
+            session.setId(0);
+            return session;
         }
     }
 }

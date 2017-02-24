@@ -1,5 +1,6 @@
 package com.yivis.snowman.core.shiro;
 
+import com.yivis.snowman.core.shiro.session.ExtendSessionDao;
 import com.yivis.snowman.sys.entity.SysUser;
 import com.yivis.snowman.sys.service.SysService;
 import org.apache.shiro.authc.*;
@@ -28,6 +29,8 @@ public class ShiroDbRealm extends AuthorizingRealm {
     public static final int HASH_INTERATIONS = 1024;
     @Autowired
     private SysService sysService;
+    @Autowired
+    private ExtendSessionDao extendSessionDao;
 
     /**
      * 认证回调函数, 登录时调用.获取身份验证信息
@@ -36,7 +39,10 @@ public class ShiroDbRealm extends AuthorizingRealm {
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken) throws AuthenticationException {
 
         ExtendUsernamePasswordToken token = (ExtendUsernamePasswordToken) authenticationToken;
-
+        int activeSessionSize = extendSessionDao.getActiveSessions(false).size();
+        if (logger.isDebugEnabled()){
+            logger.debug("login submit, active session size: {}, username: {}", activeSessionSize, token.getUsername());
+        }
         String username = token.getUsername();
         if (username == null) {
             throw new AccountException("用户或密码错误, 请重试！");

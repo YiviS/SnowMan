@@ -2,12 +2,14 @@ package com.yivis.snowman.core.shiro.session;
 
 import org.apache.shiro.session.Session;
 import org.apache.shiro.session.mgt.eis.SessionDAO;
+import org.springframework.stereotype.Repository;
 
 import java.util.Collection;
 
 /**
  * Created by XuGuang on 2017/2/22.
  */
+@Repository
 public interface ExtendSessionDao extends SessionDAO {
     /**
      * 获取活动会话

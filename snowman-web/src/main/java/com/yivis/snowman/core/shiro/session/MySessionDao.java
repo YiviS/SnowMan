@@ -115,6 +115,9 @@ public class MySessionDao extends EnterpriseCacheSessionDAO implements ExtendSes
                 if (Servlets.isStaticFile(uri)) {
                     return null;
                 }
+                if(uri == "/SnowMan/pc/geetest/register"){
+                    return null;
+                }
                 s = (Session) request.getAttribute("session_" + sessionId);
             }
             if (s != null) {
