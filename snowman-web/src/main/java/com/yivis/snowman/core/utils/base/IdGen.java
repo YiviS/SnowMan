@@ -1,8 +1,11 @@
 package com.yivis.snowman.core.utils.base;
 
+import org.apache.shiro.session.Session;
+import org.apache.shiro.session.mgt.eis.SessionIdGenerator;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
+import java.io.Serializable;
 import java.util.UUID;
 
 /**
@@ -11,7 +14,7 @@ import java.util.UUID;
  */
 @Service
 @Lazy(false)
-public class IdGen {
+public class IdGen  implements  SessionIdGenerator {
 
     /**
      * 封装JDK自带的UUID, 通过Random数字生成, 中间无-分割.
@@ -19,4 +22,9 @@ public class IdGen {
     public static String uuid() {
         return UUID.randomUUID().toString().replaceAll("-", "");
     }
+
+    public Serializable generateId(Session session) {
+        return IdGen.uuid();
+    }
+
 }

@@ -23,7 +23,7 @@ public class IndexController {
      */
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     public String login() {
-        return "/index";
+        return "/login";
     }
 
     /**
@@ -39,12 +39,14 @@ public class IndexController {
     }
 
     @RequestMapping("/index")
-    public String test1() {
+    public String test1(Model model) {
+        model.addAttribute("username", "super");
         return "index";
     }
 
     @RequestMapping("/")
-    public String test3() {
+    public String test3(Model model) {
+        model.addAttribute("username", "super");
         return "index";
     }
 

@@ -44,7 +44,7 @@
     </bean>
 
     <!-- 自定义会话管理配置 -->
-    <bean id="sessionManager" class="com.yivis.snowman.core.shiro.session.WebSessionManager">
+    <bean id="sessionManager" class="org.apache.shiro.web.session.mgt.DefaultWebSessionManager">
         <property name="sessionDAO" ref="MySessionDao"/>
         <!-- 会话超时时间，单位：毫秒  -->
         <property name="globalSessionTimeout" value="1800000"/>
@@ -55,6 +55,8 @@
         <property name="sessionValidationSchedulerEnabled" value="true"/>
         <property name="sessionIdCookie" ref="sessionIdCookie"/>
         <property name="sessionIdCookieEnabled" value="true"/>
+        <!-- url中是否显示sessionid  默认为true -->
+        <property name="sessionIdUrlRewritingEnabled" value="false"/>
     </bean>
     <!-- 会话Cookie模板 指定本系统SESSIONID, 默认为: JSESSIONID 问题: 与SERVLET容器名冲突, 如JETTY, TOMCAT 等默认JSESSIONID,
     当跳出SHIRO SERVLET时如ERROR-PAGE容器会为JSESSIONID重新分配值导致登录会话丢失! -->
@@ -66,9 +68,9 @@
         <property name="maxAge" value="1800"/>
     </bean>
     <!-- 自定义Session存储容器 -->
-    <bean id="JavaUuidSessionIdGenerator" class="org.apache.shiro.session.mgt.eis.JavaUuidSessionIdGenerator"/>
+    <bean id="idGen" class="com.yivis.snowman.core.utils.base.IdGen"/>
     <bean id="MySessionDao" class="com.yivis.snowman.core.shiro.session.MySessionDao">
-        <property name="sessionIdGenerator" ref="JavaUuidSessionIdGenerator" />
+        <property name="sessionIdGenerator" ref="idGen" />
         <property name="cacheManager" ref="shiroCacheManager" />
     </bean>
 
