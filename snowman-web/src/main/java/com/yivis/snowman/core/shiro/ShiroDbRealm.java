@@ -1,21 +1,20 @@
 package com.yivis.snowman.core.shiro;
 
-import com.yivis.snowman.core.shiro.session.ExtendSessionDao;
+import com.yivis.snowman.core.shiro.session.MySessionDao;
 import com.yivis.snowman.sys.entity.SysUser;
 import com.yivis.snowman.sys.service.SysService;
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
-import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
+import org.apache.shiro.subject.SimplePrincipalCollection;
 import org.apache.shiro.util.ByteSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import javax.annotation.PostConstruct;
 
 
 /**
@@ -29,8 +28,10 @@ public class ShiroDbRealm extends AuthorizingRealm {
     public static final int HASH_INTERATIONS = 1024;
     @Autowired
     private SysService sysService;
+
     @Autowired
-    private ExtendSessionDao extendSessionDao;
+    private MySessionDao mySessionDao;
+
 
     /**
      * 认证回调函数, 登录时调用.获取身份验证信息
@@ -39,7 +40,7 @@ public class ShiroDbRealm extends AuthorizingRealm {
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken) throws AuthenticationException {
 
         ExtendUsernamePasswordToken token = (ExtendUsernamePasswordToken) authenticationToken;
-        int activeSessionSize = extendSessionDao.getActiveSessions(false).size();
+        int activeSessionSize = mySessionDao.getActiveSessions(false).size();
         if (logger.isDebugEnabled()){
             logger.debug("login submit, active session size: {}, username: {}", activeSessionSize, token.getUsername());
         }
@@ -77,15 +78,33 @@ public class ShiroDbRealm extends AuthorizingRealm {
     }
 
     /**
+     * 清空当前用户权限信息
+     */
+    public  void clearCachedAuthorizationInfo() {
+        PrincipalCollection principalCollection = SecurityUtils.getSubject().getPrincipals();
+        SimplePrincipalCollection principals = new SimplePrincipalCollection(
+                principalCollection, getName());
+        super.clearCachedAuthorizationInfo(principals);
+    }
+    /**
+     * 指定principalCollection 清除
+     */
+    public void clearCachedAuthorizationInfo(PrincipalCollection principalCollection) {
+        SimplePrincipalCollection principals = new SimplePrincipalCollection(
+                principalCollection, getName());
+        super.clearCachedAuthorizationInfo(principals);
+    }
+
+    /**
      * 设定密码校验的Hash算法与迭代次数
      */
-    @PostConstruct
+   /* @PostConstruct
     public void initCredentialsMatcher() {
         HashedCredentialsMatcher matcher = new HashedCredentialsMatcher(HASH_ALGORITHM);
         matcher.setHashIterations(HASH_INTERATIONS);
         setCredentialsMatcher(matcher);
     }
-
+*/
 
 
 }

@@ -22,6 +22,7 @@
     <!-- 配置监听ApplicationListener 的具体实现类 -->
     <bean id="appListener" class="com.yivis.snowman.core.listener.DefaultListener"></bean>
 
+    <bean id="SpringContextUtil" class="com.yivis.snowman.core.utils.base.SpringContextUtil"/>
     <!--启动spring的aop自动代理 -->
     <aop:aspectj-autoproxy/>
 </beans>

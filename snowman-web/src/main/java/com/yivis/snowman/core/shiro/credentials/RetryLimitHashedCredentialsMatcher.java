@@ -3,6 +3,7 @@ package com.yivis.snowman.core.shiro.credentials;
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
 import org.apache.shiro.authc.ExcessiveAttemptsException;
+import org.apache.shiro.authc.LockedAccountException;
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
 import org.apache.shiro.cache.Cache;
 import org.apache.shiro.cache.CacheManager;
@@ -38,6 +39,8 @@ public class RetryLimitHashedCredentialsMatcher extends HashedCredentialsMatcher
         if (matches) {
             //clear retry count
             passwordRetryCache.remove(username);
+        }else{
+            throw new LockedAccountException(); //帐号锁定
         }
         return matches;
     }

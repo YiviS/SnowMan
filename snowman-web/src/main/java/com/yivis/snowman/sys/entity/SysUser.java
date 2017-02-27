@@ -13,6 +13,15 @@ public class SysUser implements Serializable {
     private String salt;
     private Boolean locked = Boolean.FALSE;
 
+    public SysUser(){}
+
+    public SysUser(SysUser sysUser) {
+        this.id = sysUser.getId();
+        this.username = sysUser.getUsername();
+        this.password = sysUser.getPassword();
+        this.locked = sysUser.getLocked();
+    }
+
     public Integer getId() {
         return id;
     }

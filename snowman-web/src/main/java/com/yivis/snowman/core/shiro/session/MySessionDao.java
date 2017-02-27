@@ -22,7 +22,7 @@ import java.util.Set;
  * Created by XuGuang on 2017/2/22.
  * 系统安全认证实现类
  */
-public class MySessionDao extends EnterpriseCacheSessionDAO implements ExtendSessionDao {
+public class MySessionDao extends EnterpriseCacheSessionDAO {
 
     private static final Logger logger = LoggerFactory.getLogger(MySessionDao.class);
 
@@ -92,6 +92,12 @@ public class MySessionDao extends EnterpriseCacheSessionDAO implements ExtendSes
                 return null;
             }
         }
+        //不存在才添加。
+        if(null == session.getAttribute(CustomSessionManager.SESSION_STATUS)){
+            //Session 踢出自存存储。
+            SessionStatus sessionStatus = new SessionStatus();
+            session.setAttribute(CustomSessionManager.SESSION_STATUS, sessionStatus);
+        }
         super.doCreate(session);
         logger.debug("doCreate {} {}", session, request != null ? request.getRequestURI() : "");
         return session.getId();
@@ -113,9 +119,6 @@ public class MySessionDao extends EnterpriseCacheSessionDAO implements ExtendSes
                 String uri = request.getServletPath();
                 // 如果是静态文件，则不获取SESSION
                 if (Servlets.isStaticFile(uri)) {
-                    return null;
-                }
-                if(uri == "/SnowMan/pc/geetest/register"){
                     return null;
                 }
                 s = (Session) request.getAttribute("session_" + sessionId);
