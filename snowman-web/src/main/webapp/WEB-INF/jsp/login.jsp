@@ -43,7 +43,7 @@
 
         <button type="submit">Sign me in</button>
         <div class="remember-me">
-            <input type="checkbox" id="rememberMe" name="rememberMe" value="">
+            <input type="checkbox" id="rememberMe" name="rememberMe" value="true">
             <label for="rememberMe">记住我</label>
             <a href="">忘记密码？</a>
         </div>

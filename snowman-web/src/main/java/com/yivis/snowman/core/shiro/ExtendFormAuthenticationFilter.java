@@ -2,10 +2,7 @@ package com.yivis.snowman.core.shiro;
 
 import com.yivis.snowman.core.utils.geetestCaptcha.GetGeetestCaptcha;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.shiro.authc.AuthenticationException;
-import org.apache.shiro.authc.AuthenticationToken;
-import org.apache.shiro.authc.IncorrectCredentialsException;
-import org.apache.shiro.authc.UnknownAccountException;
+import org.apache.shiro.authc.*;
 import org.apache.shiro.subject.Subject;
 import org.apache.shiro.web.filter.authc.FormAuthenticationFilter;
 import org.apache.shiro.web.util.WebUtils;
@@ -107,8 +104,9 @@ public class ExtendFormAuthenticationFilter extends FormAuthenticationFilter {
             if (IncorrectCredentialsException.class.getName().equals(className)
                     || UnknownAccountException.class.getName().equals(className)) {
                 message = "用户或密码错误, 请重试！";
+            } else if (ExcessiveAttemptsException.class.getName().equals(className)) {
+                message = "尝试次数过多，账号锁定！";
             } else if (StringUtils.isNotEmpty(e.getMessage())) {
-//                message = StringUtils.replace(e.getMessage(), "msg:", "");
                 message = e.getMessage();
             } else {
                 message = "系统出现点问题，请稍后再试！";
