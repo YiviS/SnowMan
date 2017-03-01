@@ -2,6 +2,7 @@ package com.yivis.snowman.core.shiro.session;
 
 import com.google.common.collect.Sets;
 import com.yivis.snowman.core.config.Global;
+import com.yivis.snowman.core.config.SysConfig;
 import com.yivis.snowman.core.utils.base.DateUtils;
 import com.yivis.snowman.core.utils.base.Servlets;
 import org.apache.commons.lang3.StringUtils;
@@ -93,10 +94,9 @@ public class MySessionDao extends EnterpriseCacheSessionDAO {
             }
         }
         //不存在才添加。
-        if(null == session.getAttribute(CustomSessionManager.SESSION_STATUS)){
+        if(null == session.getAttribute(SysConfig.ONLINE_STATUS)){
             //Session 踢出自存存储。
-            SessionStatus sessionStatus = new SessionStatus();
-            session.setAttribute(CustomSessionManager.SESSION_STATUS, sessionStatus);
+            session.setAttribute(SysConfig.ONLINE_STATUS, SysConfig.OnlineStatus.online.name());
         }
         super.doCreate(session);
         logger.debug("doCreate {} {}", session, request != null ? request.getRequestURI() : "");

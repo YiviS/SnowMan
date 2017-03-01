@@ -20,8 +20,8 @@ public class SysUserOnlineBo extends SysUser implements Serializable {
     private Date lastAccess;
     //Session timeout
     private long timeout;
-    //session 是否踢出
-    private boolean sessionStatus = Boolean.TRUE;
+    //用户状态
+    private String onlineStatus;
 
     public SysUserOnlineBo(SysUser user) {
         super(user);
@@ -71,11 +71,11 @@ public class SysUserOnlineBo extends SysUser implements Serializable {
         this.timeout = timeout;
     }
 
-    public boolean isSessionStatus() {
-        return sessionStatus;
+    public String getOnlineStatus() {
+        return onlineStatus;
     }
 
-    public void setSessionStatus(boolean sessionStatus) {
-        this.sessionStatus = sessionStatus;
+    public void setOnlineStatus(String onlineStatus) {
+        this.onlineStatus = onlineStatus;
     }
 }

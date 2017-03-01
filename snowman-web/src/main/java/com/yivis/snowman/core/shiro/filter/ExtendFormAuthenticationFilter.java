@@ -1,6 +1,8 @@
-package com.yivis.snowman.core.shiro;
+package com.yivis.snowman.core.shiro.filter;
 
+import com.yivis.snowman.core.shiro.token.ExtendUsernamePasswordToken;
 import com.yivis.snowman.core.utils.geetestCaptcha.GetGeetestCaptcha;
+import com.yivis.snowman.sys.entity.SysUser;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.subject.Subject;
@@ -28,6 +30,11 @@ public class ExtendFormAuthenticationFilter extends FormAuthenticationFilter {
 
     @Autowired
     private GetGeetestCaptcha getGeetestCaptcha;
+
+    @Override
+    protected boolean isAccessAllowed(ServletRequest servletRequest, ServletResponse servletResponse, Object o) {
+        return super.isAccessAllowed(servletRequest,servletResponse,o);
+    }
 
     /**
      * 所有请求都会经过的方法。
@@ -75,6 +82,7 @@ public class ExtendFormAuthenticationFilter extends FormAuthenticationFilter {
     public boolean onLoginSuccess(AuthenticationToken token, Subject subject, ServletRequest request,
                                   ServletResponse response) throws Exception {
         //TODO 记录登陆日志
+       SysUser sysUser = (SysUser) subject.getPrincipal();
 
         if (!isAjax(request)) {     // ------------ 非ajax请求 ------------
             return super.onLoginSuccess(token, subject, request, response);

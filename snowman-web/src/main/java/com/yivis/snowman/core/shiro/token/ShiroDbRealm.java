@@ -1,5 +1,6 @@
-package com.yivis.snowman.core.shiro;
+package com.yivis.snowman.core.shiro.token;
 
+import com.yivis.snowman.core.shiro.exception.CaptchaException;
 import com.yivis.snowman.core.shiro.session.MySessionDao;
 import com.yivis.snowman.sys.entity.SysUser;
 import com.yivis.snowman.sys.service.SysService;

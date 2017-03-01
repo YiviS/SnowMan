@@ -1,6 +1,6 @@
 package com.yivis.snowman.core.utils.base;
 
-import com.yivis.snowman.core.shiro.Principal;
+import com.yivis.snowman.sys.entity.SysUser;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.UnavailableSecurityManagerException;
 import org.apache.shiro.session.InvalidSessionException;
@@ -17,12 +17,12 @@ public class UserUtils {
     /**
      * 获取当前登录者对象
      */
-    public static Principal getPrincipal() {
+    public static SysUser getSysUser() {
         try {
             Subject subject = SecurityUtils.getSubject();
-            Principal principal = (Principal) subject.getPrincipal();
-            if (principal != null) {
-                return principal;
+            SysUser sysUser = (SysUser) subject.getPrincipal();
+            if (sysUser != null) {
+                return sysUser;
             }
         } catch (UnavailableSecurityManagerException e) {
 

@@ -2,7 +2,6 @@ package com.yivis.snowman.core.utils.base;
 
 import com.google.common.net.HttpHeaders;
 import com.yivis.snowman.core.config.Global;
-import com.yivis.snowman.core.shiro.Principal;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.Validate;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -13,7 +12,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.UnsupportedEncodingException;
 import java.util.*;
-import java.util.Map.Entry;
 
 /**
  * Created by XuGuang on 2017/2/22.
@@ -198,12 +196,10 @@ public class Servlets {
 
         String accept = request.getHeader("accept");
         String xRequestedWith = request.getHeader("X-Requested-With");
-        Principal principal = UserUtils.getPrincipal();
 
         // 如果是异步请求或是手机端，则直接返回信息
         return ((accept != null && accept.indexOf("application/json") != -1
-                || (xRequestedWith != null && xRequestedWith.indexOf("XMLHttpRequest") != -1)
-                || (principal != null)));
+                || (xRequestedWith != null && xRequestedWith.indexOf("XMLHttpRequest") != -1)));
     }
 
     /**

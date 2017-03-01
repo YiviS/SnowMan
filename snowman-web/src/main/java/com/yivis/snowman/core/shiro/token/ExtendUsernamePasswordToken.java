@@ -1,4 +1,4 @@
-package com.yivis.snowman.core.shiro;
+package com.yivis.snowman.core.shiro.token;
 
 
 import org.apache.shiro.authc.UsernamePasswordToken;

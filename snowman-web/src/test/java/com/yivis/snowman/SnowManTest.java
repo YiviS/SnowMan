@@ -1,5 +1,6 @@
 package com.yivis.snowman;
 
+import com.yivis.snowman.core.config.SysConfig;
 import org.apache.shiro.cache.CacheManager;
 import org.apache.shiro.cache.Cache;
 import org.apache.shiro.codec.Base64;
@@ -45,5 +46,9 @@ public class SnowManTest {
         KeyGenerator keygen = KeyGenerator.getInstance("AES");
         SecretKey deskey = keygen.generateKey();
         System.out.println("==========" + Base64.encodeToString(deskey.getEncoded()));
+    }
+    @Test
+    public void test(){
+        System.out.println(SysConfig.OnlineStatus.online.getInfo());
     }
 }
