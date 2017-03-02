@@ -46,7 +46,7 @@ public class KickoutSessionControlFilter extends AccessControlFilter {
     @Override
     protected boolean onAccessDenied(ServletRequest servletRequest, ServletResponse servletResponse) throws Exception {
         Subject subject = getSubject(servletRequest, servletResponse);
-        //如果是相关目录 or 如果没有登录 就直接return true
+        //如果没有登录 就直接return true
         if ((!subject.isAuthenticated() && !subject.isRemembered())) {
             return Boolean.TRUE;
         }
@@ -92,7 +92,8 @@ public class KickoutSessionControlFilter extends AccessControlFilter {
                 subject.logout();
             } catch (Exception e) { //ignore
             }
-            saveRequest(servletRequest);
+            //保存Request，用来保存当前Request，然后登录后可以跳转到当前浏览的页面。
+            WebUtils.saveRequest(servletRequest);
             WebUtils.issueRedirect(servletRequest, servletResponse, kickoutUrl);
             return false;
         }
