@@ -1,5 +1,6 @@
 package com.yivis.snowman.core.shiro.token;
 
+import com.yivis.snowman.core.config.SysConfig;
 import com.yivis.snowman.core.shiro.exception.CaptchaException;
 import com.yivis.snowman.core.shiro.session.MySessionDao;
 import com.yivis.snowman.sys.entity.SysUser;
@@ -50,8 +51,10 @@ public class ShiroDbRealm extends AuthorizingRealm {
             throw new AccountException("用户或密码错误, 请重试！");
         }
         // 验证验证码
-        if (!token.isCaptcha()) {
-            throw new CaptchaException("验证码错误, 请重试！");
+        if(SysConfig.CAPTCHA_SWITCH){
+            if (!token.isCaptcha()) {
+                throw new CaptchaException("验证码错误, 请重试！");
+            }
         }
         // 校验用户名密码
         SysUser user = sysService.getUserByLoginName(username);
