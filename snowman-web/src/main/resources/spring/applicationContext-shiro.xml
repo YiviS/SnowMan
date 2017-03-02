@@ -62,11 +62,13 @@
         <property name="cache" ref="CacheManager"/>
     </bean>
 
+
     <!-- 安全认证过滤器 -->
     <bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
         <property name="filters">
             <map>
                 <entry key="authc" value-ref="extendFormAuthenticationFilter"/>
+                <!--<entry key="login" value-ref="loginFilter"/>-->
                 <entry key="kickout" value-ref="kickoutSessionFilter"/>
             </map>
         </property>

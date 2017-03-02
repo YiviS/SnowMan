@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletResponse;
  */
 @Controller
 @RequestMapping("/")
-@Scope(value="prototype")
+@Scope(value = "prototype")
 public class IndexController {
 
     /**
@@ -26,6 +26,16 @@ public class IndexController {
         return "login";
     }
 
+    @RequestMapping("/")
+    public String index() {
+        return "index";
+    }
+
+    @RequestMapping("/index")
+    public String indexq() {
+        return "index";
+    }
+
     /**
      * 登录失败，真正登录的POST请求由Filter完成
      */
@@ -34,18 +44,6 @@ public class IndexController {
         String message = (String) request.getAttribute("message");
         model.addAttribute("message", message);
         return "login";
-    }
-
-    @RequestMapping("/index")
-    public String test1(Model model) {
-        model.addAttribute("username", "super");
-        return "index";
-    }
-
-    @RequestMapping("/")
-    public String test3(Model model) {
-        model.addAttribute("username", "super");
-        return "index";
     }
 
 }
