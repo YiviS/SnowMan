@@ -157,7 +157,7 @@ public class ExtendFormAuthenticationFilter extends FormAuthenticationFilter {
     }
 
     /**
-     * 覆盖父类方法、解决所有失败的认证都跳转到登录页面
+     * 覆盖父类方法、解决所有成功的认证都跳转到登录页面
      */
     protected void issueSuccessRedirect(ServletRequest request, ServletResponse response) throws Exception {
         WebUtils.issueRedirect(request, response, getSuccessUrl(), null, true);
