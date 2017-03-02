@@ -2,14 +2,17 @@ package com.yivis.snowman.core.utils.base;
 
 import com.google.common.net.HttpHeaders;
 import com.yivis.snowman.core.config.Global;
+import net.sf.json.JSONObject;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.Validate;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.util.*;
 
@@ -109,6 +112,25 @@ public class Servlets {
             }
         }
         return true;
+    }
+
+    /**
+     * response 输出 JSON
+     */
+    public static void out(ServletResponse response, Map<String, String> resultMap) {
+        PrintWriter out = null;
+        try {
+            response.setCharacterEncoding("UTF-8");
+            out = response.getWriter();
+            out.println(JSONObject.fromObject(resultMap).toString());
+        } catch (Exception e) {
+            LoggerUtils.fmtError(Servlets.class, e, "输出JSON报错。");
+        } finally {
+            if (null != out) {
+                out.flush();
+                out.close();
+            }
+        }
     }
 
     /**
