@@ -15,6 +15,6 @@
 <h1>Hello World</h1>
 登录成功：管理中心<br/>
 当前用户：${username}<br/>
-<li><a href="${ctx}/SnowMan/logout" title="退出登录">退出登录</a></li>
+<li><a href="${basePath}/logout" title="退出登录">退出登录</a></li>
 </body>
 </html>
