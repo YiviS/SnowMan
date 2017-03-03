@@ -76,6 +76,7 @@
         var geetest_challenge;
         var geetest_validate;
         var geetest_seccode;
+        var global_captcha;
         try {
             var _href = window.location.href + "";
             if (_href && _href.indexOf('?kickout') != -1) {
@@ -126,8 +127,8 @@
             $.post("${basePath}/submitLogin", data, function (result) {
                 layer.close(load);
                 if (result && result.status != 200) {
-                    layer.msg(result.message, function () {
-                    });
+                    layer.msg(result.message);
+                    global_captcha.refresh();
                     $('.password').val('');
                     return;
                 } else {
@@ -145,6 +146,7 @@
         });
 
         var handlerEmbed = function (captchaObj) {
+            global_captcha = captchaObj;
             // 成功的回调
             captchaObj.onSuccess(function () {
                 var validate = captchaObj.getValidate();
