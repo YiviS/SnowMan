@@ -56,6 +56,7 @@
     <!-- 自定义拦截器 -->
     <bean id="extendFormAuthenticationFilter"
           class="com.yivis.snowman.core.shiro.filter.ExtendFormAuthenticationFilter"/>
+    <bean id="loginFilter" class="com.yivis.snowman.core.shiro.filter.LoginFilter"/>
     <bean id="kickoutSessionFilter" class="com.yivis.snowman.core.shiro.filter.KickoutSessionControlFilter">
         <property name="kickoutUrl" value="${filter.kickoutUrl}"/>
         <property name="sessionManager" ref="sessionManager"/>
@@ -67,8 +68,8 @@
     <bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
         <property name="filters">
             <map>
-                <entry key="authc" value-ref="extendFormAuthenticationFilter"/>
-                <!--<entry key="login" value-ref="loginFilter"/>-->
+                <!--<entry key="authc" value-ref="extendFormAuthenticationFilter"/>-->
+                <entry key="login" value-ref="loginFilter"/>
                 <entry key="kickout" value-ref="kickoutSessionFilter"/>
             </map>
         </property>
@@ -78,12 +79,13 @@
         <property name="unauthorizedUrl" value="${shiroFilter.unauthorizedUrl}"/>
         <property name="filterChainDefinitions">
             <value>
-                /login = authc
+                /login = login
+                /submitLogin = anon
                 /logout = logout
                 /static/** = anon
                 /plugins/** = anon
                 /pc/geetest/** = anon
-                /** = kickout,user
+                /** = kickout,login
             </value>
         </property>
     </bean>

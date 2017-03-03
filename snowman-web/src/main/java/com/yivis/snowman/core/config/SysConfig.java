@@ -11,7 +11,7 @@ public class SysConfig {
     /**
      * 验证码开关 false（关） true（开）
      */
-    public final static boolean CAPTCHA_SWITCH = false;
+    public final static boolean CAPTCHA_SWITCH = true;
     /**
      * 用户状态：online（在线） kickout（踢出）locked（锁定）
      */

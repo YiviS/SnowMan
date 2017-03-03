@@ -45,4 +45,35 @@ public class GetGeetestCaptcha {
             return false;
         }
     }
+
+    public boolean isGeestesCaptcha(HttpServletRequest request,GeetestBo geetestBo) {
+        GeetestLib gtSdk = new GeetestLib(GeetestConfig.getGeetest_id(), GeetestConfig.getGeetest_key());
+
+        String challenge = geetestBo.getGeetest_challenge();
+        String validate = geetestBo.getGeetest_validate();
+        String seccode = geetestBo.getGeetest_seccode();
+
+        //从session中获取gt-server状态
+        int gt_server_status_code = (Integer) request.getSession().getAttribute(gtSdk.gtServerStatusSessionKey);
+
+        //从session中获取userid
+        String userid = (String) request.getSession().getAttribute("userid");
+
+        int gtResult = 0;
+
+        if (gt_server_status_code == 1) {
+            //gt-server正常，向gt-server进行二次验证
+            gtResult = gtSdk.enhencedValidateRequest(challenge, validate, seccode, userid);
+        } else {
+            // gt-server非正常情况下，进行failback模式验证
+            gtResult = gtSdk.failbackValidateRequest(challenge, validate, seccode);
+        }
+        if (gtResult == 1) {
+            // 验证成功
+            return true;
+        } else {
+            // 验证失败
+            return false;
+        }
+    }
 }

@@ -1,5 +1,6 @@
 package com.yivis.snowman.core.shiro.filter;
 
+import com.yivis.snowman.core.shiro.exception.CaptchaException;
 import com.yivis.snowman.core.shiro.token.ExtendUsernamePasswordToken;
 import com.yivis.snowman.core.utils.geetestCaptcha.GetGeetestCaptcha;
 import com.yivis.snowman.sys.entity.SysUser;
@@ -33,7 +34,7 @@ public class ExtendFormAuthenticationFilter extends FormAuthenticationFilter {
 
     @Override
     protected boolean isAccessAllowed(ServletRequest servletRequest, ServletResponse servletResponse, Object o) {
-        return super.isAccessAllowed(servletRequest,servletResponse,o);
+        return super.isAccessAllowed(servletRequest, servletResponse, o);
     }
 
     /**
@@ -82,7 +83,7 @@ public class ExtendFormAuthenticationFilter extends FormAuthenticationFilter {
     public boolean onLoginSuccess(AuthenticationToken token, Subject subject, ServletRequest request,
                                   ServletResponse response) throws Exception {
         //TODO 记录登陆日志
-       SysUser sysUser = (SysUser) subject.getPrincipal();
+        SysUser sysUser = (SysUser) subject.getPrincipal();
 
         if (!isAjax(request)) {     // ------------ 非ajax请求 ------------
             return super.onLoginSuccess(token, subject, request, response);
@@ -114,6 +115,8 @@ public class ExtendFormAuthenticationFilter extends FormAuthenticationFilter {
                 message = "用户或密码错误, 请重试！";
             } else if (ExcessiveAttemptsException.class.getName().equals(className)) {
                 message = "尝试次数过多，账号锁定！";
+            } else if (CaptchaException.class.getName().equals(className)) {
+                message = "验证码错误, 请重试！";
             } else if (StringUtils.isNotEmpty(e.getMessage())) {
                 message = e.getMessage();
             } else {
