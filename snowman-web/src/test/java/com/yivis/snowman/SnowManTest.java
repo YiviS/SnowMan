@@ -1,8 +1,8 @@
 package com.yivis.snowman;
 
-import com.yivis.snowman.core.config.SysConfig;
-import org.apache.shiro.cache.CacheManager;
+import com.yivis.snowman.sys.service.SysUserLogService;
 import org.apache.shiro.cache.Cache;
+import org.apache.shiro.cache.CacheManager;
 import org.apache.shiro.codec.Base64;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -47,8 +47,5 @@ public class SnowManTest {
         SecretKey deskey = keygen.generateKey();
         System.out.println("==========" + Base64.encodeToString(deskey.getEncoded()));
     }
-    @Test
-    public void test(){
-        System.out.println(SysConfig.OnlineStatus.online.getInfo());
-    }
+
 }

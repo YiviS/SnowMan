@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<!-- sqlmapper 层 -->
+<mapper namespace="com.yivis.snowman.sys.mapper.SysUserLogMapper">
+    <!-- The corresponding field and type -->
+    <resultMap type="SysUserLog" id="SysUserLogMap">
+        <id column="logId" javaType="Integer" property="logId"/>
+        <result column="logType" javaType="Integer" property="logType"/>
+        <result column="userId" javaType="Integer" property="userId"/>
+        <result column="username" javaType="String" property="username"/>
+        <result column="operCode" javaType="String" property="operCode"/>
+        <result column="operName" javaType="String" property="operName"/>
+        <result column="operIP" javaType="String" property="operIP"/>
+        <result column="remark" javaType="String" property="remark"/>
+        <result column="crtTime" jdbcType="TIMESTAMP" property="crtTime"/>
+    </resultMap>
+
+    <!-- Each field corresponding alias, convenient call -->
+    <sql id="SQL_SYS_USER_LOG_COLUMN">
+        SU.LOGID logId,
+        SU.LOGTYPE logType,
+        SU.USERID userId,
+        SU.USERNAME username,
+        SU.OPERCODE operCode,
+        SU.OPERNAME operName,
+        SU.OPERIP operIP,
+        SU.CRTTIME crtTime,
+        SU.REMARK remark
+    </sql>
+
+    <!-- whether multiple fields is empty -->
+    <sql id="SQL_SYS_USER_LOG_WHERE">
+        <if test="logId !=null ">
+            AND SU.LOGID=#{logId}
+        </if>
+        <if test="logType !=null ">
+            AND SU.LOGTYPE=#{logType}
+        </if>
+        <if test="userId !=null ">
+            AND SU.USERID=#{userId}
+        </if>
+        <if test="username !=null ">
+            AND SU.USERNAME=#{username}
+        </if>
+        <if test="operCode !=null and operCode.length()!=0 ">
+            AND SU.OPERCODE=#{operCode}
+        </if>
+        <if test="operName !=null and operName.length()!=0 ">
+            AND SU.OPERNAME like '%${operName}%'
+        </if>
+        <if test="operIP !=null and operIP.length()!=0 ">
+            AND SU.OPERIP=#{operIP}
+        </if>
+        <if test="remark !=null and remark.length()!=0 ">
+            AND SU.REMARK=#{Remark}
+        </if>
+        <if test="crtTime !=null ">
+            AND SU.CRTTIME=#{crtTime}
+        </if>
+    </sql>
+
+    <!-- Query All -->
+    <select id="getList" parameterType="SysUserLog" resultType="SysUserLog">
+        select
+        <include refid="SQL_SYS_USER_LOG_COLUMN"/>
+        from SYS_USER_LOG SU
+        <where>
+            <include refid="SQL_SYS_USER_LOG_WHERE"/>
+        </where>
+        order by SU.CRTTIME desc
+    </select>
+
+<!--    &lt;!&ndash; Statistical line &ndash;&gt;
+    <select id="getListCount" parameterType="SysUserLog" resultType="int">
+        select count(*) as counts
+        from SYS_USER_LOG SU
+        <where>
+            <include refid="SQL_SYS_USER_LOG_WHERE"/>
+        </where>
+    </select>
+
+    &lt;!&ndash; According to the id check record &ndash;&gt;
+    <select id="getById" parameterType="int" resultType="SysUserLog">
+        select
+        <include refid="SQL_SYS_USER_LOG_COLUMN"/>
+        from SYS_USER_LOG SU
+        <where>
+            SU.LOGID = #{logId}
+        </where>
+    </select>
+
+    &lt;!&ndash; add &ndash;&gt;
+    <insert id="insert" parameterType="SysUserLog">
+        insert into SYS_USER_LOG
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="logId != null">
+                LOGID,
+            </if>
+            <if test="logType != null">
+                LOGTYPE,
+            </if>
+            <if test="userId != null">
+                USERID,
+            </if>
+            <if test="username != null">
+                USERNAME,
+            </if>
+            <if test="operCode != null">
+                OPERCODE,
+            </if>
+            <if test="operName != null">
+                OPERNAME,
+            </if>
+            <if test="operIP != null">
+                OPERIP,
+            </if>
+            <if test="remark != null">
+                REMARK,
+            </if>
+            <if test="crtTime != null">
+                CRTTIME,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="logId != null">
+                #{logId,jdbcType=NUMERIC},
+            </if>
+            <if test="logType != null">
+                #{logType,jdbcType=NUMERIC},
+            </if>
+            <if test="userId != null">
+                #{userId,jdbcType=NUMERIC},
+            </if>
+            <if test="username != null">
+                #{username,jdbcType=NUMERIC},
+            </if>
+            <if test="operCode != null">
+                #{operCode,jdbcType=VARCHAR},
+            </if>
+            <if test="operName != null">
+                #{operName,jdbcType=VARCHAR},
+            </if>
+            <if test="operIP != null">
+                #{operIP,jdbcType=VARCHAR},
+            </if>
+            <if test="remark != null">
+                #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="crtTime != null">
+                #{crtTime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>-->
+
+</mapper>
