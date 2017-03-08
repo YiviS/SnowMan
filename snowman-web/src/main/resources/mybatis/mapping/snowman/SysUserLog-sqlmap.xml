@@ -70,7 +70,7 @@
         order by SU.CRTTIME desc
     </select>
 
-<!--    &lt;!&ndash; Statistical line &ndash;&gt;
+    <!-- Statistical line -->
     <select id="getListCount" parameterType="SysUserLog" resultType="int">
         select count(*) as counts
         from SYS_USER_LOG SU
@@ -79,7 +79,7 @@
         </where>
     </select>
 
-    &lt;!&ndash; According to the id check record &ndash;&gt;
+    <!-- According to the id check record -->
     <select id="getById" parameterType="int" resultType="SysUserLog">
         select
         <include refid="SQL_SYS_USER_LOG_COLUMN"/>
@@ -89,7 +89,7 @@
         </where>
     </select>
 
-    &lt;!&ndash; add &ndash;&gt;
+    <!-- add -->
     <insert id="insert" parameterType="SysUserLog">
         insert into SYS_USER_LOG
         <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -150,6 +150,6 @@
                 #{crtTime,jdbcType=TIMESTAMP},
             </if>
         </trim>
-    </insert>-->
+    </insert>
 
 </mapper>

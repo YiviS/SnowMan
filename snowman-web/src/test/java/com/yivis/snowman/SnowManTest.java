@@ -1,6 +1,5 @@
 package com.yivis.snowman;
 
-import com.yivis.snowman.sys.service.SysUserLogService;
 import org.apache.shiro.cache.Cache;
 import org.apache.shiro.cache.CacheManager;
 import org.apache.shiro.codec.Base64;

@@ -5,9 +5,9 @@
        http://www.springframework.org/schema/beans/spring-beans.xsd">
 
     <!-- myBatis配置SqlSessionFactoryBean -->
-    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+    <bean id="mySqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
         <property name="dataSource" ref="dataSource"/>
-        <!--<property name="configLocation" value="classpath:/mybatis-config.xml"/>-->
+        <property name="configLocation" value="classpath:/mybatis-config.xml"/>
         <!-- typeAliasesPackage 多值可逗号分隔 -->
         <property name="typeAliasesPackage" value="com.yivis.snowman.sys.entity,com.yivis.custom.entity"/>
         <property name="mapperLocations" value="classpath*:/mybatis/mapping/**/**-sqlmap.xml"/>
@@ -16,8 +16,8 @@
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
         <!-- basePackage 多值可逗号分隔 -->
         <property name="basePackage" value="com.yivis.snowman.sys.mapper,com.yivis.custom.mapper"/>
-        <!--<property name="markerInterface" value="com.yivis.snowman.core.base.BaseSqlMapper"/>-->
-        <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>
+        <property name="markerInterface" value="com.yivis.snowman.core.base.BaseSqlMapper"/>
+        <property name="sqlSessionFactoryBeanName" value="mySqlSessionFactory"/>
     </bean>
 
     <!-- (事务管理)transaction manager, use JtaTransactionManager for global tx -->
