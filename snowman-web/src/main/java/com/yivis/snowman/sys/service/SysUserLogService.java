@@ -17,6 +17,6 @@ public class SysUserLogService {
     private SysUserLogDao sysUserLogDao;
 
     public List<SysUserLog> getList(SysUserLog bo) {
-        return sysUserLogDao.getList(bo);
+        return sysUserLogDao.pageQuery(bo,1,1);
     }
 }

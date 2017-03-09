@@ -67,7 +67,6 @@
         <where>
             <include refid="SQL_SYS_USER_LOG_WHERE"/>
         </where>
-        order by SU.CRTTIME desc
     </select>
 
     <!-- Statistical line -->

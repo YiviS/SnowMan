@@ -1,5 +1,6 @@
 package com.yivis.snowman.core.base;
 
+import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.support.SqlSessionDaoSupport;
 import org.slf4j.Logger;
@@ -31,6 +32,11 @@ public abstract class BaseDao<E, M, P extends Serializable> extends SqlSessionDa
      */
     public List<E> getList(E entity) {
         List<E> list = getSqlSession().selectList(getMapperNamesapce() + ".getList", entity);
+        return list;
+    }
+
+    public List<E> pageQuery(E entity, int offet, int limit) {
+        List<E> list = getSqlSession().selectList(getMapperNamesapce() + ".getList", entity, new RowBounds(offet, limit));
         return list;
     }
 
