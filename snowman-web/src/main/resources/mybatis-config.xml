@@ -19,7 +19,7 @@
     </settings>
     <plugins>
         <plugin interceptor="com.github.pagehelper.PageHelper">
-            <property name="dialect" value="mysql"/>
+            &lt;!&ndash;<property name="dialect" value="mysql"/>&ndash;&gt;
             &lt;!&ndash; 该参数默认为false &ndash;&gt;
             &lt;!&ndash; 设置为true时，会将RowBounds第一个参数offset当成pageNum页码使用 &ndash;&gt;
             &lt;!&ndash; 和startPage中的pageNum效果一样&ndash;&gt;
