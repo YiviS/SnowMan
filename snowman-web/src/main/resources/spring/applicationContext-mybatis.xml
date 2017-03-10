@@ -7,7 +7,7 @@
     <!-- myBatis配置SqlSessionFactoryBean -->
     <bean id="mySqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
         <property name="dataSource" ref="dataSource"/>
-        <property name="configLocation" value="classpath:/mybatis-config.xml"/>
+        <!--<property name="configLocation" value="classpath:/mybatis-config.xml"/>-->
         <!-- typeAliasesPackage 多值可逗号分隔 -->
         <property name="typeAliasesPackage" value="com.yivis.snowman.sys.entity,com.yivis.custom.entity"/>
         <property name="mapperLocations" value="classpath*:/mybatis/mapping/**/**-sqlmap.xml"/>

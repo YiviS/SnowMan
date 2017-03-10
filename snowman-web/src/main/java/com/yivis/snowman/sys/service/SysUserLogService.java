@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by XuGuang on 2017/3/7.
@@ -17,6 +18,10 @@ public class SysUserLogService {
     private SysUserLogDao sysUserLogDao;
 
     public List<SysUserLog> getList(SysUserLog bo) {
-        return sysUserLogDao.pageQuery(bo,1,2);
+        return sysUserLogDao.pageQuery(bo, 1, 2);
+    }
+
+    public List<Map> getMapList() {
+        return sysUserLogDao.getMapList();
     }
 }

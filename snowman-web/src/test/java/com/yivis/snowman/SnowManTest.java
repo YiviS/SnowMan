@@ -1,5 +1,8 @@
 package com.yivis.snowman;
 
+import com.yivis.snowman.core.utils.dynamicDataSource.DataSourceHolder;
+import com.yivis.snowman.sys.entity.SysUserLog;
+import com.yivis.snowman.sys.service.SysUserLogService;
 import org.apache.shiro.cache.Cache;
 import org.apache.shiro.cache.CacheManager;
 import org.apache.shiro.codec.Base64;
@@ -13,6 +16,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
@@ -27,6 +32,9 @@ public class SnowManTest {
 
     @Autowired
     private CacheManager cacheManager;
+
+    @Autowired
+    private SysUserLogService sysUserLogService;
 
     /**
      * 移除账号锁定缓存
@@ -45,6 +53,14 @@ public class SnowManTest {
         KeyGenerator keygen = KeyGenerator.getInstance("AES");
         SecretKey deskey = keygen.generateKey();
         System.out.println("==========" + Base64.encodeToString(deskey.getEncoded()));
+    }
+
+    @Test
+    public void DynamicDataSource(){
+//        DataSourceHolder.setDataSources("dataSource2");
+        List<Map> list = sysUserLogService.getMapList();
+//        List list = sysUserLogService.getList(new SysUserLog());
+        System.out.println(DataSourceHolder.getDataSources() +"=========="+ list.size());
     }
 
 }

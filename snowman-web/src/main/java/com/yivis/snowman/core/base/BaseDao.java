@@ -68,4 +68,15 @@ public abstract class BaseDao<E, M, P extends Serializable> extends SqlSessionDa
     public String getMapperNamesapce() {
         throw new RuntimeException("not yet implement");
     }
+
+    /**
+     * 获取Mapper
+     *
+     * @param <M>
+     * @param type
+     * @return
+     */
+    public <M> M getMapperByType(Class<M> type) {
+        return this.getSqlSession().getMapper(type);
+    }
 }
