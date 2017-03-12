@@ -48,6 +48,16 @@ public class Global {
     public static final String FALSE = "false";
 
     /**
+     * 管理员编号
+     */
+    public static final Integer ADMIN_ID = 1;
+
+    /**
+     * 匿名用户编号
+     */
+    public static final Integer ANONYMOUS_ID = 0;
+
+    /**
      * 上传文件基础虚拟路径
      */
     public static final String USERFILES_BASE_URL = "/userfiles/";
