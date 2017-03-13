@@ -24,5 +24,5 @@
 
     <bean id="SpringContextUtil" class="com.yivis.snowman.core.utils.base.SpringContextUtil"/>
     <!--启动spring的aop自动代理 -->
-    <aop:aspectj-autoproxy/>
+    <aop:aspectj-autoproxy proxy-target-class="true"/>
 </beans>

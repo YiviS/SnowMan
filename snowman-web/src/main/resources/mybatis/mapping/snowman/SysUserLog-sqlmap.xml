@@ -4,9 +4,9 @@
 <mapper namespace="com.yivis.snowman.sys.mapper.SysUserLogMapper">
     <!-- The corresponding field and type -->
     <resultMap type="SysUserLog" id="SysUserLogMap">
-        <id column="logId" javaType="Integer" property="logId"/>
+        <result column="logId" javaType="String" property="logId"/>
         <result column="logType" javaType="Integer" property="logType"/>
-        <result column="userId" javaType="Integer" property="userId"/>
+        <result column="userId" javaType="String" property="userId"/>
         <result column="username" javaType="String" property="username"/>
         <result column="operCode" javaType="String" property="operCode"/>
         <result column="operName" javaType="String" property="operName"/>
@@ -122,13 +122,13 @@
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="logId != null">
-                #{logId,jdbcType=NUMERIC},
+                #{logId,jdbcType=VARCHAR},
             </if>
             <if test="logType != null">
                 #{logType,jdbcType=NUMERIC},
             </if>
             <if test="userId != null">
-                #{userId,jdbcType=NUMERIC},
+                #{userId,jdbcType=VARCHAR},
             </if>
             <if test="username != null">
                 #{username,jdbcType=NUMERIC},

@@ -34,9 +34,10 @@ public class SysUserLogService extends BaseService {
      */
     public void saveSysUserLog(SysUserLog sysUserLog) {
         String idStr = IdGen.uuid();
-        sysUserLog.setLogId(Integer.valueOf(idStr));
+        sysUserLog.setLogId(idStr);
         logger.debug("---------------------------------logid:>" + sysUserLog.getLogId());
-        sysUserLog.setUserId(SessionUtils.getUserId() == 0 ? null : SessionUtils.getUserId());
+        sysUserLog.setUserId(SessionUtils.getUserId() == "0" ? null : SessionUtils.getUserId());
+        sysUserLog.setUsername(SessionUtils.getUserName());
         sysUserLogDao.save(sysUserLog);
     }
 }

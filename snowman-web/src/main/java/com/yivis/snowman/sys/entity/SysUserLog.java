@@ -9,11 +9,11 @@ import java.util.Date;
 public class SysUserLog {
 
     // 日志ID
-    private Integer logId;
+    private String logId;
     // 类型(1:业务日志;0:操作日志)
     private Integer logType;
     // 用户ID
-    private Integer userId;
+    private String userId;
     // 操作编码
     private String operCode;
     // 操作名称
@@ -31,11 +31,11 @@ public class SysUserLog {
     // 用户登陆名称
     private String username;
 
-    public Integer getLogId() {
+    public String getLogId() {
         return logId;
     }
 
-    public void setLogId(Integer logId) {
+    public void setLogId(String logId) {
         this.logId = logId;
     }
 
@@ -47,11 +47,11 @@ public class SysUserLog {
         this.logType = logType;
     }
 
-    public Integer getUserId() {
+    public String getUserId() {
         return userId;
     }
 
-    public void setUserId(Integer userId) {
+    public void setUserId(String userId) {
         this.userId = userId;
     }
 

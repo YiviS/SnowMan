@@ -1,5 +1,6 @@
 package com.yivis.snowman.sys.controller;
 
+import com.yivis.snowman.core.aop.log.UserLog;
 import com.yivis.snowman.sys.entity.SysUserLog;
 import com.yivis.snowman.sys.service.SysUserLogService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Map;
 
@@ -24,7 +26,8 @@ public class SysUserController {
      */
     @RequestMapping("getUserLogList")
     @ResponseBody
-    public List<SysUserLog> getUserLogList() {
+    @UserLog(code = "getUserLogList", name = "查询日志 ", remarkClass = SysUserLog.class)
+    public List<SysUserLog> getUserLogList(HttpServletRequest request) {
         return sysUserLogService.getList(new SysUserLog());
     }
 

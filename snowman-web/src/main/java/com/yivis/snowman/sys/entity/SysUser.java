@@ -8,7 +8,7 @@ import java.util.Date;
  */
 public class SysUser implements Serializable {
 
-    private Integer id;
+    private String id;
     /**
      * 昵称
      */
@@ -48,11 +48,11 @@ public class SysUser implements Serializable {
         this.locked = sysUser.getLocked();
     }
 
-    public Integer getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(String id) {
         this.id = id;
     }
 

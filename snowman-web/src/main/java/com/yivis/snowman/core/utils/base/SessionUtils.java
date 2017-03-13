@@ -50,7 +50,7 @@ public class SessionUtils {
     /**
      * 获取用户编号
      */
-    public final static Integer getUserId() {
+    public final static String getUserId() {
         SysUser sysUser = getUser();
         return (sysUser == null) ? Global.ANONYMOUS_ID : sysUser.getId();
     }

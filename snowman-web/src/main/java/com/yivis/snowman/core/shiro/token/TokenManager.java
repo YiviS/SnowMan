@@ -74,7 +74,7 @@ public class TokenManager {
      *
      * @return
      */
-    public Integer getUserId() {
+    public String getUserId() {
         return getToken() == null ? null : getToken().getId();
     }
 

@@ -18,7 +18,7 @@ import java.util.Date;
 @Component
 public class UserLogAspect {
 
-    private static final Logger LOG = LoggerFactory.getLogger(UserLogAspect.class);
+    private static final Logger logger = LoggerFactory.getLogger(UserLogAspect.class);
     @Autowired
     private SysUserLogService sysUserLogService;
 

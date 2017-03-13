@@ -1,5 +1,6 @@
 package com.yivis.snowman;
 
+import com.yivis.snowman.core.utils.base.IdGen;
 import com.yivis.snowman.core.utils.dynamicDataSource.DataSourceHolder;
 import com.yivis.snowman.sys.entity.SysUserLog;
 import com.yivis.snowman.sys.service.SysUserLogService;
@@ -61,6 +62,10 @@ public class SnowManTest {
         List<Map> list = sysUserLogService.getMapList();
 //        List list = sysUserLogService.getList(new SysUserLog());
         System.out.println(DataSourceHolder.getDataSources() +"=========="+ list.size());
+    }
+    @Test
+    public void testID(){
+        System.out.println(Integer.valueOf(IdGen.uuid()));
     }
 
 }

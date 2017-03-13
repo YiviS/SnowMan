@@ -50,12 +50,12 @@ public class Global {
     /**
      * 管理员编号
      */
-    public static final Integer ADMIN_ID = 1;
+    public static final String ADMIN_ID = "1";
 
     /**
      * 匿名用户编号
      */
-    public static final Integer ANONYMOUS_ID = 0;
+    public static final String ANONYMOUS_ID = "0";
 
     /**
      * 上传文件基础虚拟路径
