@@ -2,7 +2,7 @@ package com.yivis.snowman;
 
 import com.yivis.snowman.core.utils.base.IdGen;
 import com.yivis.snowman.core.utils.dynamicDataSource.DataSourceHolder;
-import com.yivis.snowman.sys.entity.SysUserLog;
+import com.yivis.snowman.sys.entity.SysUser;
 import com.yivis.snowman.sys.service.SysUserLogService;
 import org.apache.shiro.cache.Cache;
 import org.apache.shiro.cache.CacheManager;
@@ -14,9 +14,13 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
+import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -66,6 +70,20 @@ public class SnowManTest {
     @Test
     public void testID(){
         System.out.println(Integer.valueOf(IdGen.uuid()));
+    }
+
+    @Test
+    public void testListBen(){
+        SysUser sysUser = new SysUser();
+        List<SysUser> list = new ArrayList<SysUser>();
+        list.add(sysUser);
+        Iterator it1 = list.iterator();
+        while (it1.hasNext()){
+            Field[] fields = it1.next().getClass().getDeclaredFields();
+            for(int i=0;i<fields.length;i++){
+                System.out.println("======"+fields[i].getName().toString());
+            }
+        }
     }
 
 }

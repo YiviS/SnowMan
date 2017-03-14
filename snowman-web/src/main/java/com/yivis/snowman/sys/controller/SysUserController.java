@@ -1,14 +1,20 @@
 package com.yivis.snowman.sys.controller;
 
 import com.yivis.snowman.core.aop.log.UserLog;
+import com.yivis.snowman.core.utils.poi.ExcelRead;
 import com.yivis.snowman.sys.entity.SysUserLog;
 import com.yivis.snowman.sys.service.SysUserLogService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.swing.text.html.parser.Entity;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -38,5 +44,27 @@ public class SysUserController {
     @ResponseBody
     public List<Map> getUserLogMapList() {
         return sysUserLogService.getMapList();
+    }
+
+    @RequestMapping("/toReadExcel")
+    public String indexq() {
+        return "readExcel";
+    }
+
+    /**
+     * readExcel
+     */
+    @RequestMapping(value = "/readExcel")
+    @ResponseBody
+    public List readExcel(@RequestParam(value = "excelFile") MultipartFile file, HttpServletRequest reques) {
+        Excel excel = new Excel();
+        List list = excel.test111(file);
+        return list;
+    }
+
+    public class Excel extends ExcelRead<Entity> {
+        public List test111(MultipartFile file) {
+            return this.parserExcel(file);
+        }
     }
 }
