@@ -20,21 +20,7 @@ public class ExcelUtil {
     public static final String POINT = ".";
     public static SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
 
-    /**
-     * 获得path的后缀名
-     *
-     * @param path
-     * @return
-     */
-    public static String getPostfix(String path) {
-        if (path == null || EMPTY.equals(path.trim())) {
-            return EMPTY;
-        }
-        if (path.contains(POINT)) {
-            return path.substring(path.lastIndexOf(POINT) + 1, path.length());
-        }
-        return EMPTY;
-    }
+
 
     /**
      * 单元格格式
