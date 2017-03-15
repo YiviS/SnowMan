@@ -7,11 +7,12 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.management.AttributeList;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
-import java.lang.reflect.Method;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -23,10 +24,7 @@ import java.util.List;
  * Created by XuGuang on 2017/3/14.
  * 读取Excel
  */
-public abstract class ExcelRead<E> {
-
-    public static int totalRows; //sheet中总行数
-    public static int totalCells; //每一行总单元格数
+public abstract class ExcelRead {
 
     public static final String OFFICE_EXCEL_2003_POSTFIX = "xls";
     public static final String OFFICE_EXCEL_2010_POSTFIX = "xlsx";
@@ -34,17 +32,44 @@ public abstract class ExcelRead<E> {
     public static final String EMPTY = "";
     public static final String POINT = ".";
 
+    public static final String OBJECT = "object";
+    public static final String STRING = "string";
+
     public static SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
     /**
      * 解析Excel
+     *
+     * @param entity,rule,filePath 存储的实体类，定义存储的规则，文件路径
+     * @Author XuGuang  2017/3/15 01:27
      */
-    public List<Object> parserExcel(E entity, String[] rule, MultipartFile file) {
+    public List<Object> parserExcel(Object entity, String[] rule, String filePath) throws IOException {
+        List<Object> parseSheet = new ArrayList<Object>();
+        File file = new File(filePath);
+        FileInputStream input = new FileInputStream(file);
+        String postfix = getPostfix(file.getName());
+        if (file == null || EMPTY.equals(file.getName().trim())) {
+            return null;
+        } else {
+            Workbook workbook = createWorkbook(input, postfix);
+            parseSheet = pareseSheet(entity, rule, workbook);
+        }
+        return parseSheet;
+    }
+
+    /**
+     * 解析Excel
+     *
+     * @param entity,rule,file 存储的实体类，定义存储的规则，file文件流
+     * @Author XuGuang  2017/3/15 01:27
+     */
+    public List<Object> parserExcel(Object entity, String[] rule, MultipartFile file) {
         List<Object> parseSheet = new ArrayList<Object>();
         if (file == null || EMPTY.equals(file.getOriginalFilename().trim())) {
             return null;
         } else {
-            Workbook workbook = createWorkbook(file);
+            String postfix = getPostfix(file.getOriginalFilename());
+            Workbook workbook = createWorkbook(getInput(file), postfix);
             parseSheet = pareseSheet(entity, rule, workbook);
         }
         return parseSheet;
@@ -62,7 +87,8 @@ public abstract class ExcelRead<E> {
         if (file == null || EMPTY.equals(file.getOriginalFilename().trim())) {
             return null;
         } else {
-            Workbook workbook = createWorkbook(file);
+            String postfix = getPostfix(file.getOriginalFilename());
+            Workbook workbook = createWorkbook(getInput(file), postfix);
             parseSheet = pareseSheet(workbook);
         }
         return parseSheet;
@@ -84,26 +110,27 @@ public abstract class ExcelRead<E> {
     /**
      * 单元格行数据转换为bean
      */
-    public Object parserBean(E entity, String[] rule, List<Object> rowData) {
+    public Object parserBean(Object entity, String[] rule, List<Object> rowData) {
         int num = 0;
         Object obj = new Object();
         try {
             obj = newInstance(entity.getClass().getName().toString(), new Object[0]);
             Iterator<Object> iterator = rowData.iterator();
             while (iterator.hasNext()) {
-                Object args = iterator.next();
                 String name = rule[num];
-
+                Field field = entity.getClass().getDeclaredField(name);
+                String fieldType = field.getType().getSimpleName().toString();
+                Object args = iterator.next();
+                if ("Integer".equals(fieldType) || "int".equals(fieldType)) {
+                    args = Integer.parseInt(args.toString());
+                } else if ("Long".equalsIgnoreCase(fieldType)) {
+                    args = Long.parseLong(args.toString());
+                } else if ("Double".equalsIgnoreCase(fieldType)) {
+                    args = Double.parseDouble(args.toString());
+                } else if ("Boolean".equalsIgnoreCase(fieldType)) {
+                    args = Boolean.parseBoolean(args.toString());
+                }
                 ReflectUtils.invokeSetter(obj, name, args);
-
-
-//                Field field =  entity.getClass().getDeclaredField(name);
-//                String type = field.getType().toString();
-//                name = name.substring(0, 1).toUpperCase() + name.substring(1); // 将属性的首字符大写，方便构造get，set方法
-//                if (type.equals("class java.lang.String")) {
-//                    Method method = entity.getClass().getMethod("set" + name);
-//                    method.invoke(entity, args);
-//                }
                 num++;
             }
         } catch (Exception e) {
@@ -129,14 +156,29 @@ public abstract class ExcelRead<E> {
     }
 
     /**
-     * 创建WorkBook
+     * 获取文件流
      */
-    public Workbook createWorkbook(MultipartFile file) {
-        // IO流读取文件
+    public InputStream getInput(MultipartFile file) {
         InputStream input = null;
-        String postfix = getPostfix(file.getOriginalFilename());
         try {
             input = file.getInputStream();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                input.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return input;
+    }
+
+    /**
+     * 创建WorkBook
+     */
+    public Workbook createWorkbook(InputStream input, String postfix) {
+        try {
             if (!EMPTY.equals(postfix)) {
                 if (OFFICE_EXCEL_2003_POSTFIX.equals(postfix)) {  //判断是否为2003格式的excel
                     return new HSSFWorkbook(input);
@@ -148,12 +190,6 @@ public abstract class ExcelRead<E> {
             }
         } catch (IOException e) {
             e.printStackTrace();
-        } finally {
-            try {
-                input.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
         }
         return null;
     }
@@ -161,7 +197,7 @@ public abstract class ExcelRead<E> {
     /**
      * 解析表格
      */
-    public List<Object> pareseSheet(E entity, String[] rule, Workbook workbook) {
+    public List<Object> pareseSheet(Object entity, String[] rule, Workbook workbook) {
         List<Object> list = new ArrayList<Object>();
         Sheet sheet = null;
         for (int sheetCount = 0; sheetCount < workbook.getNumberOfSheets(); sheetCount++) {
@@ -170,7 +206,7 @@ public abstract class ExcelRead<E> {
             int rowNumber = 0;
             while (rowIterator.hasNext()) {
                 Row row = rowIterator.next();
-                List<Object> rowData = parseRow(row);
+                List<Object> rowData = parseRow(row, OBJECT);
                 if (rowNumber > 0) {
                     list.add(parserBean(entity, rule, rowData));
                 }
@@ -193,7 +229,7 @@ public abstract class ExcelRead<E> {
             int rowNumber = 0;
             while (rowIterator.hasNext()) {     //迭代遍历每一行
                 Row row = rowIterator.next();
-                List<Object> rowData = parseRow(row);
+                List<Object> rowData = parseRow(row, STRING);
                 if (rowNumber > 0) {    //过滤表头数据
                     list.add(rowData);
                 }
@@ -210,31 +246,76 @@ public abstract class ExcelRead<E> {
      * @param row
      * @return
      */
-    public List<Object> parseRow(Row row) {
+    public List<Object> parseRow(Row row, String backType) {
+        int columnNumber = 0;
         List<Object> rowData = new ArrayList<Object>();
-        // for循环遍历
-        /*for (int i = 0; i < row.getLastCellNum(); i++) {
-            Cell cell = row.getCell(i);
-            Object cellObj=null;
-            if(cell!=null){
-                cellObj = parseCell(cell);
-            }
-            rowData.add(cellObj);
-        }*/
-
         // 迭代 一行的各个单元格
         Iterator<Cell> cellIterator = row.iterator();
         // 遍历一行多列
         while (cellIterator.hasNext()) {
             Cell cell = cellIterator.next();
-            Object cellObj = parseCell(cell);
+            Object cellObj = null;
+            if (OBJECT.equals(backType)) {  //返回object
+                cellObj = parseCell(cell, columnNumber);
+            } else if (STRING.equals(backType)) {   //返回String
+                cellObj = parseCell(cell);
+            }
             rowData.add(cellObj);
+            columnNumber++;
         }
         return rowData;
     }
 
     /**
-     * 解析单元格格式
+     * 自定义处理指定列单元格 子类重写
+     *
+     * @param
+     * @Author XuGuang  2017/3/15 10:13
+     */
+    public Object parserSpecifySheet(Cell cell, int columnNumber) {
+        double value = cell.getNumericCellValue();
+        CellStyle style = cell.getCellStyle();
+        DecimalFormat format = new DecimalFormat();
+        String temp = style.getDataFormatString();
+        // 单元格设置成常规
+//        if (temp.equals("General")) {
+//            format.applyPattern("#.##");
+//        }
+        return format.format(value);
+    }
+
+    /**
+     * 解析单元格 返回原数据格式
+     *
+     * @param cell
+     * @return
+     */
+    protected Object parseCell(Cell cell, int columnNumber) {
+        Object obj = null;
+        switch (cell.getCellType()) {
+            case Cell.CELL_TYPE_BOOLEAN:
+                obj = cell.getBooleanCellValue();
+                break;
+            case Cell.CELL_TYPE_NUMERIC:
+                // 处理日期格式、时间格式
+                if (DateUtil.isCellDateFormatted(cell)) {
+                    obj = cell.getDateCellValue();
+                } else if (cell.getCellStyle().getDataFormat() == 58) {
+                    // 处理自定义日期格式：m月d日(通过判断单元格的格式id解决，id的值是58)
+                    obj = DateUtil.getJavaDate(cell.getNumericCellValue());
+                } else {
+                    obj = parserSpecifySheet(cell, columnNumber);   //自定义处理数据格式
+                }
+                break;
+            default:
+                obj = cell.getStringCellValue();
+                break;
+        }
+        return obj;
+    }
+
+    /**
+     * 解析单元格格式 返回String字符串
      */
     public String parseCell(Cell cell) {
         String cellValue = null;

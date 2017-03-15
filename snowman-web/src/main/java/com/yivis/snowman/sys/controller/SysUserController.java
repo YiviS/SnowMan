@@ -60,11 +60,11 @@ public class SysUserController {
         return list;
     }
 
-    public class Excel extends ExcelRead<SysUser> {
+    public class Excel extends ExcelRead {
         public List test111(MultipartFile file) {
-            String[] rule = {"id","username","password"};
+            String[] rule = {"id", "username", "password", "createTime"};
             SysUser sysUser = new SysUser();
-            return this.parserExcel(sysUser,rule,file);
+            return this.parserExcel(sysUser, rule, file);
         }
     }
 }
